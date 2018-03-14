@@ -1,33 +1,41 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+var uuid = require('uuid');
 
-class TodoList extends Component {
-    constructor(props) {
-        super(props);
-    }
-    componentDidMount() {
-
-    }
+export default class TodoList extends Component {
     render() {
         return (
-            <div>
-                Todo List
-            </div>
+            this.props.visible && (
+                <div className="columns">
+                    <div className="column">
+                        <div className="card">
+                            <header className="card-header">
+                                <p className="card-header-title">Todo List</p>
+                            </header>
+                            <div className="card-content">
+                                <div className="content">
+                                    <table className="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Desc</th>
+                                                <th>Priority</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                this.props.todos.length > 0 && this.props.todos.map((todo) => (
+                                                    <tr key={uuid()}>
+                                                        <td>{todo.todo}</td>
+                                                        <td>{todo.priority}</td>
+                                                    </tr>
+                                                ))
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>)
         )
     }
 }
-
-const mapStateToProps = (state) => (
-    {
-        todos: state.todos
-    }
-)
-
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({
-
-    }, dispatch)
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(TodoList);

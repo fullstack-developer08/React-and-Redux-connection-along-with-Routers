@@ -21,9 +21,6 @@ export const Header = () => (
                 <Link className="navbar-item" to="user-register">
                     Register
                 </Link>
-                <Link className="navbar-item" to="add-todo">
-                    Add Todo
-                </Link>
             </div>
         </div>
     </nav>

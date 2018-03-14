@@ -1,21 +1,21 @@
 export const setValue = (name, value) => {
-    try{
+    try {
         const serializedValue = JSON.stringify(value);
         localStorage.setItem(name, serializedValue);
-    }catch(err){
+    } catch (err) {
 
     }
-    
+
 }
 
 export const getValue = (name) => {
-    try{
+    try {
         const serializedValue = localStorage.getItem(name);
         if (serializedValue === null) {
             return undefined;
         }
         return JSON.parse(serializedValue)
-    }catch(err){
+    } catch (err) {
         return undefined;
     }
 }

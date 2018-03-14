@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { setValue } from '../common/localStorage';
 import { validateUsername, validatePassword, validateEmail } from '../formValidators/userRegisterFormValidator';
+import { Link } from 'react-router-dom';
 var uuid = require('uuid');
 
 class UserRegister extends Component {
@@ -11,16 +12,16 @@ class UserRegister extends Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.onChangeInput = this.onChangeInput.bind(this);
         this.state = {
-            username:'',
-            password:'',
-            email:'',
+            username: '',
+            password: '',
+            email: '',
             usernameInputClass: 'input',
-            passwordInputClass:'input',
-            emailInputClass:'input',
-            usernameValidateErrors:[],
-            passwordValidateErrors:[],
-            emailValidateErrors:[],
-            registerMessage:''
+            passwordInputClass: 'input',
+            emailInputClass: 'input',
+            usernameValidateErrors: [],
+            passwordValidateErrors: [],
+            emailValidateErrors: [],
+            registerMessage: ''
         }
     }
 
@@ -28,27 +29,27 @@ class UserRegister extends Component {
 
     }
 
-    onChangeInput(e){
+    onChangeInput(e) {
         const value = e.target.value;
         const name = e.target.name;
-        if(name === 'username'){
+        if (name === 'username') {
             this.setState((prevState) => ({
                 username: value
             }))
         }
-        if(name === 'password'){
+        if (name === 'password') {
             this.setState((prevState) => ({
                 password: value
             }))
         }
-        if(name === 'email'){
+        if (name === 'email') {
             this.setState((prevState) => ({
                 email: value
             }))
         }
     }
 
-    onSubmit(e){
+    onSubmit(e) {
         e.preventDefault();
         this.setState((prevState) => ({
             usernameValidateErrors: [],
@@ -65,7 +66,7 @@ class UserRegister extends Component {
         validateUsername(username);
         validatePassword(password);
         const validateErrors = validateEmail(email);
-        if(validateErrors.username.length > 0 || validateErrors.password.length > 0 || validateErrors.email.length > 0){
+        if (validateErrors.username.length > 0 || validateErrors.password.length > 0 || validateErrors.email.length > 0) {
             console.log(validateErrors);
             this.setState((prevState) => ({
                 usernameValidateErrors: validateErrors.username,
@@ -77,11 +78,11 @@ class UserRegister extends Component {
                 registerMessage: ''
             }))
         } else {
-            setValue('tempUser', {username, password, email});
+            setValue('tempUser', { username, password, email });
             this.setState((prevState) => ({
-                username:'',
-                password:'',
-                email:'',
+                username: '',
+                password: '',
+                email: '',
                 usernameInputClass: validateErrors.username.length > 0 ? 'input is-danger' : 'input',
                 passwordInputClass: validateErrors.password.length > 0 ? 'input is-danger' : 'input',
                 emailInputClass: validateErrors.email.length > 0 ? 'input is-danger' : 'input',
@@ -123,7 +124,7 @@ class UserRegister extends Component {
                                                     value={this.state.username}
                                                     placeholder="Enter User Name"
                                                     onChange={this.onChangeInput}
-                                                 />
+                                                />
                                             </div>
                                             {
                                                 this.state.usernameValidateErrors.length > 0 && this.state.usernameValidateErrors.map(
@@ -136,9 +137,9 @@ class UserRegister extends Component {
                                         <div className="field">
                                             <label className="label">Password</label>
                                             <div className="control">
-                                                <input 
+                                                <input
                                                     className={this.state.passwordInputClass}
-                                                    type="text" 
+                                                    type="text"
                                                     name="password"
                                                     value={this.state.password}
                                                     placeholder="Enter email"
@@ -156,10 +157,10 @@ class UserRegister extends Component {
                                         <div className="field">
                                             <label className="label">Email</label>
                                             <div className="control">
-                                                <input 
+                                                <input
                                                     className={this.state.emailInputClass}
-                                                    type="text" 
-                                                    name="email" 
+                                                    type="text"
+                                                    name="email"
                                                     value={this.state.email}
                                                     placeholder="Enter Password"
                                                     onChange={this.onChangeInput}
@@ -177,6 +178,7 @@ class UserRegister extends Component {
                                             <div className="control">
                                                 <button className="button is-link">Register</button>
                                             </div>
+                                            <Link className="button is-info" to="/">Login</Link>
                                         </div>
                                     </form>
                                 </div>

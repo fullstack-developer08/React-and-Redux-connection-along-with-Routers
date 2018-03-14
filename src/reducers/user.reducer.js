@@ -1,7 +1,7 @@
 const userReducerInitialState = {};
 
 export const userReducer = (state = userReducerInitialState, action) => {
-    switch(action.type){
+    switch (action.type) {
         case 'USER_LOGIN':
             return {
                 ...action.payload
@@ -9,6 +9,10 @@ export const userReducer = (state = userReducerInitialState, action) => {
         case 'USER_LOGOUT':
             return {
                 ...action.payload
+            }
+        case 'GET_STORAGE_STATE_FOR_USER':
+            return {
+               ...action.payload
             }
         default:
             return state;

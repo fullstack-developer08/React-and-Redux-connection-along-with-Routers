@@ -22,3 +22,13 @@ export const toggleTodo = (payload) => ({
     type: 'TOGGLE_TODO',
     payload
 });
+
+export const getStateFromStorateForTodo = (payload) => ({
+    type: 'GET_STORAGE_STATE_FOR_TODO',
+    payload
+})
+
+export const getStateFromStorageForUser = (payload) => ({
+    type: 'GET_STORAGE_STATE_FOR_USER',
+    payload
+})

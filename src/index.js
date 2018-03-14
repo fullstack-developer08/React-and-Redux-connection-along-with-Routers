@@ -5,8 +5,10 @@ import registerServiceWorker from './registerServiceWorker';
 import { AppRouter } from './routers/app.router';
 import configureStore from './store/configureStore';
 import { Provider } from 'react-redux';
+import { setValue } from './common/localStorage';
 
 const store = configureStore();
+store.subscribe(() => setValue('state', store.getState()));
 
 const template = (
     <Provider store={store}>
