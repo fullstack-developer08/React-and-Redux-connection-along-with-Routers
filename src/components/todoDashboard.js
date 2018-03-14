@@ -95,7 +95,6 @@ class TodoDashboard extends Component {
 
     render() {
         return (
-
             <div className="container">
                 <div className="columns">
                     <div className="column">
@@ -159,7 +158,7 @@ class TodoDashboard extends Component {
                     <div className="column">
                     </div>
                 </div>
-                <TodoList visible={this.state.isTodoListVisible} todos={this.props.todos.todos}/>
+                <TodoList visible={this.state.isTodoListVisible} todos={this.props.todos.todos} />
             </div>
         )
     }
