@@ -23,8 +23,8 @@ export default class TodoList extends Component {
                                         <tbody>
                                             {
                                                 this.props.todos.length > 0 && this.props.todos.map((todo) => (
-                                                    <tr key={uuid()}>
-                                                        <td>{todo.todo}</td>
+                                                    <tr key={uuid()} >
+                                                        <td>{todo.description}</td>
                                                         <td>{todo.priority}</td>
                                                     </tr>
                                                 ))
@@ -35,7 +35,8 @@ export default class TodoList extends Component {
                             </div>
                         </div>
                     </div>
-                </div>)
+                </div>
+            )
         )
     }
 }

@@ -78,7 +78,6 @@ class UserPanel extends Component {
     }
 
     render() {
-
         return (
             <div className="container">
                 <UserLogin onSubmit={this.onSubmit} getState={this.state} loginMessage={this.state.loginMessage} />

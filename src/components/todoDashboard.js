@@ -11,7 +11,10 @@ class TodoDashboard extends Component {
     constructor(props) {
         super(props);
         this.onSubmit = this.onSubmit.bind(this);
+        this.onChangeBindValue = this.onChangeBindValue.bind(this);
         this.state = {
+            descriptionDefaultValue: '',
+            priorityDefaultValueSelected: false,
             prioritySelectClassName: 'select',
             todoInputClassName: 'input',
             priorityValidateErrors: [],
@@ -20,21 +23,23 @@ class TodoDashboard extends Component {
         };
     }
 
-    componentDidMount() {
+
+
+    async componentDidMount() {
         //on reload the page state should come from the local storage
 
         const persistedState = getValue('state');
 
         if (persistedState && persistedState.todos) {
-            this.props.getStateFromStorateForTodo(persistedState.todos);
+            await this.props.getStateFromStorateForTodo(persistedState.todos);
         }
 
         if (persistedState && persistedState.user) {
-            this.props.getStateFromStorageForUser(persistedState.user);
+            await this.props.getStateFromStorageForUser(persistedState.user);
         }
 
         let tempUser = getValue('tempUser');
-        if (!this.props.user) {
+        if (!tempUser) {
             this.props.history.push('/');
         }
         if (this.props.user && tempUser) {
@@ -42,32 +47,24 @@ class TodoDashboard extends Component {
                 this.props.history.push('/');
             }
         }
-
-        // check wether list is avaialable or not
-        setTimeout(() => {
-            if (this.props.todos.todos.length > 0) {
-                this.setState((prevState) => ({
-                    isTodoListVisible: true
-                }))
-            }
-        }, 1000)
-
-
-
-
+        if (this.props.todos.todos.length > 0) {
+            this.setState((prevState) => ({
+                isTodoListVisible: true
+            }))
+        }
     }
 
-    onSubmit(e) {
+    async onSubmit(e) {
         //stops default behaviours for form submit
         //stops form submit
         e.preventDefault();
 
         //getting the value from the fields
-        const todo = e.target.elements.todo.value;
+        const description = e.target.elements.description.value;
         const priority = e.target.elements.priority.value;
 
         //validation for form fields
-        validateTodo(todo);
+        validateTodo(description);
         const validateErrors = validatePriority(priority);
 
         //before submit form state should be default state so that new error will be visible
@@ -79,18 +76,41 @@ class TodoDashboard extends Component {
         }))
 
         //if validate errors comes then show the errors
-        if (validateErrors.todo.length > 0 || validateErrors.priority.length > 0) {
+        if (validateErrors.description.length > 0 || validateErrors.priority.length > 0) {
             this.setState((prevState) => ({
                 prioritySelectClassName: validateErrors.priority.length > 0 ? 'select is-danger' : 'select',
-                todoInputClassName: validateErrors.todo.length > 0 ? 'input is-danger' : 'input',
+                todoInputClassName: validateErrors.description.length > 0 ? 'input is-danger' : 'input',
                 priorityValidateErrors: validateErrors.priority,
-                todoValidateErrors: validateErrors.todo
+                todoValidateErrors: validateErrors.description
             }))
         } else {
+            this.setState((prevState) => ({
+                descriptionDefaultValue: '',
+                priorityDefaultValueSelected: true
+            }))
             //If no validation errors found
-            this.props.addTodo({ todo, priority });
+            await this.props.addTodo({ description, priority });
+            if (this.props.todos.todos.length > 0) {
+                this.setState((prevState) => ({
+                    isTodoListVisible: true
+                }))
+            }
         }
+    }
 
+    onChangeBindValue(e) {
+        let value = e.target.value;
+        let name = e.target.name;
+        if (name === 'description') {
+            this.setState((prevState) => ({
+                descriptionDefaultValue: value
+            }))
+        }
+        if (name === 'priority') {
+            this.setState((prevState) => ({
+                priorityDefaultValueSelected: false
+            }))
+        }
     }
 
     render() {
@@ -113,8 +133,10 @@ class TodoDashboard extends Component {
                                                 <input
                                                     className={this.state.todoInputClassName}
                                                     type="text"
-                                                    name="todo"
+                                                    name="description"
                                                     placeholder="Enter Todo"
+                                                    value={this.state.descriptionDefaultValue}
+                                                    onChange={this.onChangeBindValue}
                                                 />
                                             </div>
                                             {
@@ -129,8 +151,8 @@ class TodoDashboard extends Component {
                                             <label className="label">Priority</label>
                                             <div className="control">
                                                 <div className={this.state.prioritySelectClassName}>
-                                                    <select name="priority">
-                                                        <option value=''>Select Priority</option>
+                                                    <select name="priority" onChange={this.onChangeBindValue}>
+                                                        <option value='' selected={this.state.priorityDefaultValueSelected}>Select Priority</option>
                                                         <option value='High'>High</option>
                                                         <option value='Medium'>Medium</option>
                                                         <option value='Low'>Low</option>
@@ -158,7 +180,7 @@ class TodoDashboard extends Component {
                     <div className="column">
                     </div>
                 </div>
-                <TodoList visible={this.state.isTodoListVisible} todos={this.props.todos.todos} />
+                <TodoList visible={this.state.isTodoListVisible} todos={this.props.todos.todos} updateTaskStatus={this.updateTaskStatus} />
             </div>
         )
     }

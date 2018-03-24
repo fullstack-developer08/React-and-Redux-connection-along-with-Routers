@@ -1,9 +1,9 @@
-let errors = { todo: [], priority: []};
+let errors = { description: [], priority: []};
 
-export const validateTodo = (todo) => {
-    errors.todo = [];
-    if (todo === '' || todo === undefined) {
-        errors.todo.push('todo field is required!')
+export const validateTodo = (description) => {
+    errors.description = [];
+    if (description === '' || description === undefined) {
+        errors.description.push('todo field is required!')
     }
     return errors;
 }
