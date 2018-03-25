@@ -11,7 +11,7 @@ export class UserLogin extends Component {
                 <div className="column">
                     <div className="card">
                         <header className="card-header">
-                            <p className="card-header-title">Login</p>
+                            <p className="card-header-title">Login => Username: test, Password: test</p>
                         </header>
                         <div className="card-content">
                             <div className="content">
