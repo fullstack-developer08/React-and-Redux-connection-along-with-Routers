@@ -5,7 +5,7 @@ import { UserLogin } from './userLogin';
 import { validateUsername, validatePassword } from '../formValidators/userRegisterFormValidator';
 import { getValue } from '../common/localStorage';
 import { userLogin, getStateFromStorageForUser } from '../actions/actions';
-
+import { setValue } from '../common/localStorage';
 class UserPanel extends Component {
     constructor(props) {
         super(props);
@@ -19,6 +19,7 @@ class UserPanel extends Component {
             passwordInputClass: 'input',
             loginMessage: ''
         }
+        setValue('tempUser', {"username":"test","password":"test","email":"test@test.com"});
     }
 
     componentDidMount() {
